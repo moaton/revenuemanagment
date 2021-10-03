@@ -1,18 +1,18 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-12">
+    <div class="row justify-content-lg-center align-items-lg-center">
+      <div class="col-12 col-lg-6">
         <div class="home" v-if="revenues.length != 0">
-          <div class="col-12"><input type="number" min="5" class="login" v-model="number" placeholder="Доход"></div>
-          <div class="col-12 d-flex justify-content-between mt-4 mb-4">
-            <button class="main__btn btn" @click="newRevenue">Новый доход</button>
+          <div class="col-12 col-lg-10 offset-lg-1"><input type="number" min="5" class="login px-3 py-2" v-model="number" placeholder="Доход"></div>
+          <div class="col-12 col-lg-10 offset-lg-1 d-flex justify-content-between mt-4 mb-4">
+            <button class="main__btn btn__border" @click="newRevenue">Новый доход</button>
             <button class="main__btn" @click="addRevenue">Добавить</button>
           </div>
           <div class="col-12 text-center">
             <p id="revenue" class="revenue">{{ revenues.revenue }}</p>
           </div>
           <hr>
-          <div class="revenue__content col-12" v-if="revenues.expenses.length > 0">
+          <div class="revenue__content col-12 col-lg-10 offset-lg-1" v-if="revenues.expenses.length > 0">
             <div class="wrapper">
               <div class="revenue__card mb-4" v-for="(item, index) in displayExpenses" :key="index">
                 <div class="col-12 d-flex justify-content-between align-items-center">
@@ -163,7 +163,7 @@
 
       .wrapper {
         height: 100%;
-        overflow: scroll;
+        overflow-y: scroll;
         .revenue__card {
           padding: 10px;
           border-radius: 6px;
@@ -206,6 +206,16 @@
       background: #000;
       height: 6px;
       filter: blur(5px);
+    }
+  }
+  @media (max-width: 320px){
+    body{
+      font-size: 11px !important;
+    }
+  }
+  @media (min-width: 768px){
+    .revenue{
+      font-size: 36px !important;
     }
   }
 </style>

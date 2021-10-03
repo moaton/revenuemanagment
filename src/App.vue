@@ -48,7 +48,7 @@
     background: #000;
     transition: all .5s ease;
   }
-  .btn{
+  .btn__border{
      border: 1px solid #000;
      color: #000;
      background: transparent;
