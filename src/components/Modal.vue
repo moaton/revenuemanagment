@@ -6,6 +6,7 @@
           <div class="modal__content">
             <div class="col-12 text-center"><p class="title">Вход</p></div>
             <div class="col-12 mt-4 mb-4"><input type="text" class="login" :class="{ error: empty}" v-model="username" placeholder="Логин"></div>
+            <div class="col-12 mt-4 mb-4"><input type="password" class="login" :class="{ error: empty}" v-model="password" placeholder="Пароль"></div>
             <div class="col-12 d-flex justify-content-end"><button class="main__btn" @click="getAccounts">Войти</button></div>
           </div>
         </div>
@@ -15,60 +16,71 @@
 </template>
 
 <script>
-const URL = 'http://localhost:3000/'
+const URL = 'http://195.49.212.34:8080/api/accounts/'
 export default {
   emits: ['entered'],
   data() {
     return {
       username: "",
+      password: '',
       empty: false,
     }
   },
   methods: {
     async getAccounts(){
-      if(this.username.length > 0){
-        await this.axios.get(URL + 'accounts/').then(res => {
-          let index = res.data.findIndex(el => el.username === this.username)
-          if(index != -1){
-            this.username = ""
-            localStorage.setItem('userId', res.data[index].id)
-            this.$emit('entered')            
-          }else{
-            this.axios.get(URL + 'accounts/').then(res => {
-              if(res.data.length === 0){
-                this.axios.post(URL + 'accounts/',{
-                  "id": 1000,
-                  "username": this.username
-                }).then(()=>{
-                  this.axios.post(URL + 'revenues/', {
-                    "id": 1000,
-                    "revenue": 0,
-                    "expenses": []
-                  }).then(()=>{
-                    localStorage.setItem('userId', 1000)
-                    this.$emit('entered')
-                  })
-                })
-              }else{
-                this.axios.post(URL + 'accounts/',{
-                  "username": this.username
-                }).then(res =>{
-                  this.axios.post(URL + 'revenues/', {
-                    "id": res.data.id,
-                    "revenue": 0,
-                    "expenses": []
-                  }).then(res =>{
-                    localStorage.setItem('userId', res.data.id)
-                    this.$emit('entered')
-                  })
-                })
-              }
-            })
+      if(this.username.length > 0 && this.password.length > 0){
+        // await this.axios.get(URL + 'accounts/').then(res => {
+        //   let index = res.data.findIndex(el => el.username === this.username)
+        //   if(index != -1){
+        //     this.username = ""
+        //     localStorage.setItem('userId', res.data[index].id)
+        //     this.$emit('entered')            
+        //   }else{
+        //     this.axios.get(URL + 'accounts/').then(res => {
+        //       if(res.data.length === 0){
+        //         this.axios.post(URL + 'accounts/',{
+        //           "id": 1000,
+        //           "username": this.username
+        //         }).then(()=>{
+        //           this.axios.post(URL + 'revenues/', {
+        //             "id": 1000,
+        //             "revenue": 0,
+        //             "expenses": []
+        //           }).then(()=>{
+        //             localStorage.setItem('userId', 1000)
+        //             this.$emit('entered')
+        //           })
+        //         })
+        //       } else{
+        //         this.axios.post(URL + 'accounts/',{
+        //           "username": this.username
+        //         }).then(res =>{
+        //           this.axios.post(URL + 'revenues/', {
+        //             "id": res.data.id,
+        //             "revenue": 0,
+        //             "expenses": []
+        //           }).then(res =>{
+        //             localStorage.setItem('userId', res.data.id)
+        //             this.$emit('entered')
+        //           })
+        //         })
+        //       }
+        //     })
             
+        //   }
+        // })
+        const params = {
+          username: this.username,
+          password: this.password
+        }
+        await this.axios.post(URL, params).then(data => {
+          if(data.data){
+            localStorage.setItem('userId', data.data.id)
+            this.$emit('entered') 
           }
         })
         this.empty = false
-      }else{
+      } else{
         this.empty = true
       }
       

@@ -46,11 +46,16 @@
     border-radius: 6px;
     color: #fff;
     background: #000;
+    cursor: pointer;
     transition: all .5s ease;
   }
+  .main__btn:disabled{
+    background: #5a5858;
+    cursor: not-allowed;
+  }
   .btn__border{
-     border: 1px solid #000;
-     color: #000;
-     background: transparent;
+    border: 1px solid #000;
+    color: #000;
+    background: transparent;
   }
 </style>

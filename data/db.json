@@ -8,62 +8,42 @@
   "revenues": [
     {
       "id": 1000,
-      "revenue": 4090,
+      "revenue": 4000,
       "expenses": [
         {
-          "title": "Yandex Music",
-          "cost": 849,
-          "date": "30.09.2021"
+          "type": "other",
+          "isIncome": true,
+          "date": "15.07.2022",
+          "title": "WhatIf",
+          "cost": 200
         },
         {
-          "title": "",
-          "cost": 950,
-          "date": "30.09.2021"
+          "type": "meal",
+          "isIncome": false,
+          "date": "15.07.2022",
+          "title": "Bahandi",
+          "cost": 2000
         },
         {
-          "title": "",
-          "cost": 400,
-          "date": "30.09.2021"
+          "type": "debtFrom",
+          "isIncome": true,
+          "date": "15.07.2022",
+          "title": "Asyl",
+          "cost": 5000
         },
         {
-          "title": "Tele 2",
-          "cost": 1900,
-          "date": "30.09.2021"
+          "type": "debt",
+          "isIncome": false,
+          "date": "15.07.2022",
+          "title": "Асылу",
+          "cost": 400
         },
         {
-          "title": "",
-          "cost": 1500,
-          "date": "30.09.2021"
-        },
-        {
-          "title": "",
-          "cost": 670,
-          "date": "30.09.2021"
-        },
-        {
-          "title": "Хлеб",
-          "cost": 110,
-          "date": "30.09.2021"
-        },
-        {
-          "title": "",
-          "cost": 120,
-          "date": "30.09.2021"
-        },
-        {
-          "title": "Onay",
-          "cost": 3001,
-          "date": "30.09.2021"
-        },
-        {
-          "title": "",
-          "cost": 370,
-          "date": "30.09.2021"
-        },
-        {
-          "title": "",
-          "cost": 540,
-          "date": "30.09.2021"
+          "type": "salary",
+          "isIncome": true,
+          "date": "15.07.2022",
+          "title": "Зарплата",
+          "cost": 500
         }
       ]
     }
