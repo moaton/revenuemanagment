@@ -145,6 +145,8 @@
             this.revenues.expenses[0].exp.unshift(data.obj)
           } else {
             let dateTime = new Date(data.obj.date).getDate() + '.' + (new Date(data.obj.date).getMonth() + 1 < 10 ? '0' + (new Date(data.obj.date).getMonth() + 1) : (new Date(data.obj.date).getMonth() + 1)) + '.' + new Date(data.obj.date).getFullYear()
+            let exp = []
+            exp.push(data.obj)
             this.revenues.expenses.push({exp: exp, datetime: dateTime})
           }
           let expenses = []
@@ -222,14 +224,15 @@
         await this.axios.get(URL + 'revenues/' + this.userId).then(res => {
           let dates = []
           let date = new Date()
-          JSON.parse(res.data.expenses).map(item => {
-            let dateTime = new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()
-            if(dates.findIndex(date => date.datetime === dateTime) === -1){
-              let exp = JSON.parse(res.data.expenses).filter(item => (new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()) === dateTime)
-              dates.push({ exp: exp, datetime: dateTime })
-            }
-          })
-          console.log(dates,'dates');
+          if(res.data.expenses !== null){
+            JSON.parse(res.data.expenses).map(item => {
+              let dateTime = new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()
+              if(dates.findIndex(date => date.datetime === dateTime) === -1){
+                let exp = JSON.parse(res.data.expenses).filter(item => (new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()) === dateTime)
+                dates.push({ exp: exp, datetime: dateTime })
+              }
+            })
+          }
           this.revenues = {...res.data, revenue: +res.data.revenue, expenses: res.data.expenses ? dates : []}
           if(this.revenues.revenue > 0){
             this.end = +this.revenues.revenue
