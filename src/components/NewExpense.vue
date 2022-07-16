@@ -151,8 +151,7 @@
         obj = {
           type: this.type,
           isIncome: this.isIncome,
-          date: date.getDate() + '.' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date
-            .getMonth() + 1)) + '.' + date.getFullYear()
+          date: new Date() 
         }
         if(this.type === 'repayment'){
           let cost = 0

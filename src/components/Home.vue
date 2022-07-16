@@ -17,21 +17,29 @@
           <hr>
           <div class="revenue__content col-12 col-lg-10 offset-lg-1" v-if="revenues.expenses.length > 0">
             <div class="wrapper">
-              <div class="revenue__card mb-4" style="position: relative;" :style="getStyle(item.type) + 'max-height: 123px;'" v-for="(item, index) in displayExpenses" :key="index">
-                <div class="col-12 d-flex justify-content-between align-items-center">
-                  <div class="revenue__card--title">{{ item.title }}</div>
-                  <i class="far fa-times-circle" @click="deleteExpense(item)"></i>
-                </div>
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;"><i :class="getIconClass(item.type)" style="font-size: 65px;"></i></div>
-                <div class="revenue__card--cost"><span>{{getSymbol(item.type)}}</span> {{ item.cost }} тенге</div>
-                <template v-if="item.type === 'repayment'">
-                  <div style="max-height: 16px; overflow: scroll;">
-                    <div v-for="(repayment, key) in item.repayments" :key="key">
-                      <span>{{repayment.name}}: {{repayment.value}} тенге</span>
-                    </div>
+              <div v-for="(item, index) in displayExpenses" :key="index">
+                <p class="date__title" v-if="item.datetime === new Date().getDate() + '.' + (new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)) + '.' + new Date().getFullYear()">
+                  Сегодня
+                </p>
+                <p class="date__title" v-else>
+                  {{item.datetime}}
+                </p>
+                <div class="revenue__card mb-4" style="position: relative;" :style="getStyle(exp.type) + 'max-height: 123px;'" v-for="(exp, index) in item.exp" :key="index">
+                  <div class="col-12 d-flex justify-content-between align-items-center">
+                    <div class="revenue__card--title">{{ exp.title }}</div>
+                    <i class="far fa-times-circle" @click="deleteExpense(exp)"></i>
                   </div>
-                </template>
-                <div class="revenue__card--date text-end">{{item.date }}</div>
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;"><i :class="getIconClass(exp.type)" style="font-size: 65px;"></i></div>
+                  <div class="revenue__card--cost"><span>{{getSymbol(exp.type)}}</span> {{ exp.cost }} тенге</div>
+                  <template v-if="exp.type === 'repayment'">
+                    <div style="max-height: 16px; overflow: scroll;">
+                      <div v-for="(repayment, key) in exp.repayments" :key="key">
+                        <span>{{repayment.name}}: {{repayment.value}} тенге</span>
+                      </div>
+                    </div>
+                  </template>
+                  <div class="revenue__card--date text-end">{{getDate(exp.date)}}</div>
+              </div>
               </div>
             </div>
           </div>
@@ -111,6 +119,10 @@
             return '';
         }
       },
+      getDate(date){
+        let dateTime = new Date(date)
+        return dateTime.getDate() + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear()
+      },
       getSymbol(type){
         if(type === 'salary' || type === 'debtFrom' || type === 'gift' || type === 'otherFrom'){
           return '+'
@@ -127,11 +139,22 @@
             this.revenues.revenue -= data.obj.cost
           else
             this.revenues.revenue += data.obj.cost
-          this.revenues.expenses.unshift(data.obj)
+          // this.revenues.expenses.unshift(data.obj)
+          let date = new Date()
+          if(this.revenues.expenses.length !== 0){
+            this.revenues.expenses[0].exp.unshift(data.obj)
+          } else {
+            let dateTime = new Date(data.obj.date).getDate() + '.' + (new Date(data.obj.date).getMonth() + 1 < 10 ? '0' + (new Date(data.obj.date).getMonth() + 1) : (new Date(data.obj.date).getMonth() + 1)) + '.' + new Date(data.obj.date).getFullYear()
+            this.revenues.expenses.push({exp: exp, datetime: dateTime})
+          }
+          let expenses = []
+          this.revenues.expenses.map(item => {
+            expenses = [...expenses, ...item.exp]
+          })
           let params = {
             id: this.userId,
             revenue: this.revenues.revenue,
-            expenses: JSON.stringify(this.revenues.expenses)
+            expenses: JSON.stringify(expenses)
           }
           await this.axios.put(URL + 'revenues/' + this.userId, params)
           this.number = null
@@ -140,10 +163,14 @@
         }, 1000)
       },
       async deleteExpense(item) {
+        let dateTime = new Date(item.date)
+        let index = this.revenues.expenses.findIndex(el => el.datetime === dateTime.getDate() + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear())
+        if(index === -1)
+          return
+        let indexExp = this.revenues.expenses[index].exp.findIndex(el => el === item)
         this.isLoading = true
-        let index = this.revenues.expenses.findIndex(el => el === item)
-        if (index != -1) {
-          this.revenues.expenses.splice(index, 1)
+        if (indexExp != -1) {
+          this.revenues.expenses[index].exp.splice(indexExp, 1)
           setTimeout(async () => {
             var count = this.revenues.revenue;
             var number = !item.isIncome ? this.revenues.revenue + item.cost : this.revenues.revenue - item.cost 
@@ -153,10 +180,14 @@
               this.revenues.revenue -= item.cost
             else
               this.revenues.revenue += item.cost
+            let expenses = []
+            this.revenues.expenses.map(data => {
+              expenses = [...expenses, ...data.exp]
+            })
             let params = {
               id: this.userId,
               revenue: this.revenues.revenue,
-              expenses: JSON.stringify(this.revenues.expenses)
+              expenses: JSON.stringify(expenses)
             }
             await this.axios.put(URL + 'revenues/' + this.userId, params).then(() => {
               this.startCounter()
@@ -189,7 +220,17 @@
         this.isLoading = true
         this.revenues = []
         await this.axios.get(URL + 'revenues/' + this.userId).then(res => {
-          this.revenues = {...res.data, revenue: +res.data.revenue, expenses: res.data.expenses ? JSON.parse(res.data.expenses) : []}
+          let dates = []
+          let date = new Date()
+          JSON.parse(res.data.expenses).map(item => {
+            let dateTime = new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()
+            if(dates.findIndex(date => date.datetime === dateTime) === -1){
+              let exp = JSON.parse(res.data.expenses).filter(item => (new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()) === dateTime)
+              dates.push({ exp: exp, datetime: dateTime })
+            }
+          })
+          console.log(dates,'dates');
+          this.revenues = {...res.data, revenue: +res.data.revenue, expenses: res.data.expenses ? dates : []}
           if(this.revenues.revenue > 0){
             this.end = +this.revenues.revenue
           }
@@ -288,6 +329,31 @@
       filter: blur(5px);
     }
   }
+  .date__title{
+    overflow: hidden;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .date__title:before,
+  .date__title:after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    height: 1px;
+    background-color: #212529;
+    position: relative;
+  }
+  .date__title:before {
+    margin-left: -100%;
+    left: -14px;
+  }
+  .date__title:after {
+    margin-right: -100%;
+    right: -14px;
+  }
+
   @media (max-width: 320px){
     body{
       font-size: 11px !important;
