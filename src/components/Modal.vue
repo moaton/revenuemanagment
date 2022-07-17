@@ -16,7 +16,7 @@
 </template>
 
 <script>
-const URL = 'http://195.49.212.34:8080/api/accounts/'
+const URL = 'https://195.49.212.34:8080/api/accounts/'
 export default {
   emits: ['entered'],
   data() {

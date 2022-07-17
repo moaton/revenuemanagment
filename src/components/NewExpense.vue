@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  const URL = 'http://195.49.212.34:8080/api/'
+  const URL = 'https://195.49.212.34:8080/api/'
   export default {
     emits: ['close', 'add'],
     props: ['isIncome', 'number'],
