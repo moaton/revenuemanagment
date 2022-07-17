@@ -19,10 +19,10 @@
             <div class="wrapper">
               <div v-for="(item, index) in displayExpenses" :key="index">
                 <p class="date__title" v-if="item.datetime === new Date().getDate() + '.' + (new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)) + '.' + new Date().getFullYear()">
-                  Сегодня
+                  Сегодня <sup v-html="getTotal(item.exp)"></sup>
                 </p>
                 <p class="date__title" v-else>
-                  {{item.datetime}}
+                  {{item.datetime}} <sup v-html="getTotal(item.exp)"></sup>
                 </p>
                 <div class="revenue__card mb-4" style="position: relative;" :style="getStyle(exp.type) + 'max-height: 123px;'" v-for="(exp, index) in item.exp" :key="index">
                   <div class="col-12 d-flex justify-content-between align-items-center">
@@ -83,6 +83,20 @@
       await this.getRevenues()
     },
     methods: {
+      getTotal(exp){
+        let total = 0
+        exp.map(item => {
+          if(item.isIncome){
+            total -= item.cost
+          } else {
+            total += item.cost
+          }
+        })
+        let html = '<small class="$1">$2</small>'
+        let text = total > 0 ? `-${total} тг` : total < 0 ? `+${Math.abs(total)} тг` : '0'
+        let className = total > 0 ? 'text-danger' : total < 0 ? 'text-success' : ''
+        return html.replace('$1', className).replace('$2', text)
+      },
       getStyle(type){
         switch (type) {
           case 'salary':
@@ -141,10 +155,16 @@
             this.revenues.revenue += data.obj.cost
           // this.revenues.expenses.unshift(data.obj)
           let date = new Date()
+          let dateTime = new Date(data.obj.date).getDate() + '.' + (new Date(data.obj.date).getMonth() + 1 < 10 ? '0' + (new Date(data.obj.date).getMonth() + 1) : (new Date(data.obj.date).getMonth() + 1)) + '.' + new Date(data.obj.date).getFullYear()
           if(this.revenues.expenses.length !== 0){
-            this.revenues.expenses[0].exp.unshift(data.obj)
+            if(this.revenues.expenses[0].datetime === dateTime){
+              this.revenues.expenses[0].exp.unshift(data.obj)
+            } else {
+              let exp = []
+              exp.push(data.obj)
+              this.revenues.expenses.unshift({exp: exp, datetime: dateTime})
+            }
           } else {
-            let dateTime = new Date(data.obj.date).getDate() + '.' + (new Date(data.obj.date).getMonth() + 1 < 10 ? '0' + (new Date(data.obj.date).getMonth() + 1) : (new Date(data.obj.date).getMonth() + 1)) + '.' + new Date(data.obj.date).getFullYear()
             let exp = []
             exp.push(data.obj)
             this.revenues.expenses.push({exp: exp, datetime: dateTime})
@@ -173,6 +193,9 @@
         this.isLoading = true
         if (indexExp != -1) {
           this.revenues.expenses[index].exp.splice(indexExp, 1)
+          if(this.revenues.expenses[index].exp.length === 0){
+            this.revenues.expenses.splice(index, 1)
+          }
           setTimeout(async () => {
             var count = this.revenues.revenue;
             var number = !item.isIncome ? this.revenues.revenue + item.cost : this.revenues.revenue - item.cost 
