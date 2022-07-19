@@ -3,10 +3,12 @@
     <div class="row justify-content-lg-center align-items-lg-center">
       <div class="col-12 col-lg-6">
         <div class="home" v-if="revenues.length != 0">
-          <div class="col-12 col-lg-10 offset-lg-1"><input type="number" min="5" class="login px-3 py-2" v-model="number" placeholder="Доход"></div>
-          <div class="col-12 col-lg-10 offset-lg-1 d-flex justify-content-between mt-4 mb-4">
-            <button class="main__btn btn__border" @click="newRevenue">Новый доход</button>
-            <button class="main__btn" @click="addRevenue" :disabled="number<=0">Добавить</button>
+          <div class="col-12 col-lg-10 offset-lg-1">
+            <input type="text" min="5" class="login px-3 py-2" v-model="modelNumber" placeholder="Доход">
+          </div>
+          <div class="col-12 col-lg-10 offset-lg-1 d-flex justify-content-end mt-2 mb-4">
+            <button class="main__btn btn__border" @click="newRevenue">Обновить цифру</button>
+            <!-- <button class="main__btn" @click="addRevenue" :disabled="number<=0">Добавить</button> -->
           </div>
           <div class="col-12 text-center d-flex align-items-center justify-content-center" style="position:relative;">
             <div class="spinner-grow spinner-grow-sm" role="status" v-if="isLoading" style="position: absolute; left: -27px;">
@@ -30,11 +32,18 @@
                     <i class="far fa-times-circle" @click="deleteExpense(exp)"></i>
                   </div>
                   <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;"><i :class="getIconClass(exp.type)" style="font-size: 65px;"></i></div>
-                  <div class="revenue__card--cost"><span>{{getSymbol(exp.type)}}</span> {{ exp.cost }} тенге</div>
+                  <div class="revenue__card--cost"><span>{{getSymbol(exp.type)}}</span> {{ getMoneyFormat(exp.cost) }} тенге</div>
                   <template v-if="exp.type === 'repayment'">
                     <div style="max-height: 16px; overflow: scroll;">
                       <div v-for="(repayment, key) in exp.repayments" :key="key">
-                        <span>{{repayment.name}}: {{repayment.value}} тенге</span>
+                        <span>{{repayment.name}}: {{getMoneyFormat(repayment.value)}} тенге</span>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="exp.type === 'airticket'">
+                    <div style="max-height: 16px; overflow: scroll;">
+                      <div v-for="(airticket, key) in exp.airtickets" :key="key">
+                        <span>{{airticket.from}}-{{airticket.to}}: {{getMoneyFormat(airticket.value)}} тенге</span>
                       </div>
                     </div>
                   </template>
@@ -58,6 +67,7 @@
   import NewExpense from './NewExpense.vue'
 
   const URL = 'http://195.49.212.34:8080/api/'
+  // const URL = 'http://localhost:8080/api/'
   export default {
     components: {
       NewExpense,
@@ -65,7 +75,7 @@
     data() {
       return {
         revenues: [],
-        number: null,
+        number: '',
         userId: parseInt(localStorage.getItem('userId')),
         expenseModal: false,
         isIncome: false,
@@ -77,12 +87,33 @@
     computed: {
       displayExpenses() {
         return this.revenues.expenses
+      },
+      modelNumber: {
+        get() {
+          if(this.number !== ''){
+            return this.getMoneyFormat(+this.number)
+          } else {
+            return ''
+          }
+        },
+        set(value) {
+          let val = ''
+          value.split('').map(letter => {
+            if(letter.charCodeAt() !== 160){
+              val += letter
+            }
+          })
+          this.number = +val
+        },
       }
     },
     async mounted() {
       await this.getRevenues()
     },
     methods: {
+      getMoneyFormat(money){
+        return new Intl.NumberFormat().format(money)
+      },
       getTotal(exp){
         let total = 0
         exp.map(item => {
@@ -93,7 +124,7 @@
           }
         })
         let html = '<small class="$1">$2</small>'
-        let text = total > 0 ? `-${total} тг` : total < 0 ? `+${Math.abs(total)} тг` : '0'
+        let text = total > 0 ? `-${this.getMoneyFormat(total)} тг` : total < 0 ? `+${Math.abs(total)} тг` : '0'
         let className = total > 0 ? 'text-danger' : total < 0 ? 'text-success' : ''
         return html.replace('$1', className).replace('$2', text)
       },
