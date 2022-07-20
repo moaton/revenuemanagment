@@ -18,7 +18,7 @@
             </div>
             <treeselect v-model="type" :options="options" :clearable="false" :searchable="false" />
             <!-- <treeselect v-model="type" :options="optionsIncome" :clearable="false" v-else /> -->
-            <div v-if="type === 'other' || type === 'otherFrom'">
+            <div v-if="type === 'other' || type === 'otherFrom' || type === 'snacks'">
               <input type="text" class="login mt-4 mb-4" v-model="title" placeholder="Наименование">
               <input type="text" class="login" v-model="modelNumber" placeholder="Сумма">
             </div>
@@ -93,6 +93,7 @@
           {id: 'debt', label: 'В долг'},
           {id: 'repayment', label: 'Погашение кредита'},
           {id: 'meal', label: 'Еда'},
+          {id: 'snacks', label: 'Десерт, снеки'},
           {id: 'taxi', label: 'Такси'},
           {id: 'products', label: 'Продукты'},
           {id: 'onay', label: 'Пополнение Onay'},
@@ -133,6 +134,7 @@
             {id: 'debt', label: 'В долг'},
             {id: 'repayment', label: 'Погашение кредита'},
             {id: 'meal', label: 'Еда'},
+            {id: 'snacks', label: 'Десерт, снеки'},
             {id: 'taxi', label: 'Такси'},
             {id: 'products', label: 'Продукты'},
             {id: 'onay', label: 'Пополнение Onay'},
@@ -225,6 +227,9 @@
             break;
           case 'salary':
             obj.title = this.title === '' ? 'Зарплата' : this.title
+            break
+          case 'snacks':
+            obj.title = this.title === '' ? 'Десерты, снеки' : this.title
             break
           case 'repayment':
             obj.title = 'Погашение кредита'

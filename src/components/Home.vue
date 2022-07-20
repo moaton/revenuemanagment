@@ -31,7 +31,9 @@
                     <div class="revenue__card--title">{{ exp.title }}</div>
                     <i class="far fa-times-circle" @click="deleteExpense(exp)"></i>
                   </div>
-                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;"><i :class="getIconClass(exp.type)" style="font-size: 65px;"></i></div>
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;">
+                    <i :class="getIconClass(exp.type)" style="font-size: 60px;"></i>
+                  </div>
                   <div class="revenue__card--cost"><span>{{getSymbol(exp.type)}}</span> {{ getMoneyFormat(exp.cost) }} тенге</div>
                   <template v-if="exp.type === 'repayment'">
                     <div style="max-height: 16px; overflow: scroll;">
@@ -65,7 +67,6 @@
 
 <script>
   import NewExpense from './NewExpense.vue'
-
   const URL = 'http://195.49.212.34:8080/api/'
   // const URL = 'http://localhost:8080/api/'
   export default {
@@ -142,6 +143,20 @@
             return 'background: #ef476f;color: #fff;'
           case 'repayment':
             return 'background: #90caf9;color: #fff;'
+          case 'onay':
+            return 'background: #f8b413;color: #fff;'
+          case 'taxi':
+            return 'background: #2f4858;color: #fff;'
+          case 'products':
+            return 'background: #0e9594;color: #fff;'
+          case 'snacks':
+            return 'background: #fef9ef;'
+          case 'airticket':
+            return 'background: #508991;color: #fff;'
+          case 'mobile':
+            return 'background: #172a3a;color: #fff;'
+          case 'internet':
+            return 'background: #0353a4;color: #fff;'
           default:
             return 'background: transparent;';
         }
@@ -160,6 +175,20 @@
             return 'fa fa-gift'
           case 'repayment':
             return 'fa fa-credit-card'
+          case 'onay':
+            return 'fa fa-bus'
+          case 'taxi':
+            return 'fa fa-taxi'
+          case 'products':
+            return 'fa fa-shopping-cart'
+          case 'snacks':
+            return 'fa fa-ice-cream'
+          case 'airticket':
+            return 'fa fa-plane-departure'
+          case 'mobile':
+            return 'fa fa-mobile'
+          case 'internet':
+            return 'fa fa-wifi'
           default:
             return '';
         }
@@ -410,7 +439,6 @@
     margin-right: -100%;
     right: -14px;
   }
-
   @media (max-width: 320px){
     body{
       font-size: 11px !important;
