@@ -90,7 +90,7 @@
       },
       modelNumber: {
         get() {
-          if(this.number !== ''){
+          if(this.number !== '' && +this.number !== 0){
             return this.getMoneyFormat(+this.number)
           } else {
             return ''

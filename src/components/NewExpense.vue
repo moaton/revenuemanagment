@@ -16,7 +16,7 @@
                 <label for="expense">Расход</label>
               </div>
             </div>
-            <treeselect v-model="type" :options="options" :clearable="false" />
+            <treeselect v-model="type" :options="options" :clearable="false" :searchable="false" />
             <!-- <treeselect v-model="type" :options="optionsIncome" :clearable="false" v-else /> -->
             <div v-if="type === 'other' || type === 'otherFrom'">
               <input type="text" class="login mt-4 mb-4" v-model="title" placeholder="Наименование">
