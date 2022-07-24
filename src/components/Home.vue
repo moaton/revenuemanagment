@@ -202,9 +202,7 @@
         }
       },
       getDate(date){
-        console.log('getDate --> date', date)
         let dateTime = new Date(date)
-        console.log('getDate --> dateTime', dateTime)
         return dateTime.getDate() + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear()
       },
       getSymbol(type){
