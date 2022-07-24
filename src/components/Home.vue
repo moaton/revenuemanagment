@@ -157,6 +157,10 @@
             return 'background: #172a3a;color: #fff;'
           case 'internet':
             return 'background: #0353a4;color: #fff;'
+          case 'deposit':
+            return 'background: #e07a5f;color: #fff;'
+          case 'depositFrom':
+            return 'background: #ef957d;color: #fff;'
           default:
             return 'background: transparent;';
         }
@@ -189,16 +193,22 @@
             return 'fa fa-mobile'
           case 'internet':
             return 'fa fa-wifi'
+          case 'deposit':
+            return 'fa fa-money-bill'
+          case 'depositFrom':
+            return 'fa fa-money-bill-alt'
           default:
             return '';
         }
       },
       getDate(date){
+        console.log('getDate --> date', date)
         let dateTime = new Date(date)
+        console.log('getDate --> dateTime', dateTime)
         return dateTime.getDate() + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear()
       },
       getSymbol(type){
-        if(type === 'salary' || type === 'debtFrom' || type === 'gift' || type === 'otherFrom'){
+        if(type === 'salary' || type === 'debtFrom' || type === 'gift' || type === 'otherFrom' || type === 'depositFrom'){
           return '+'
         }
         return '-'

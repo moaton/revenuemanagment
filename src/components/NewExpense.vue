@@ -63,7 +63,7 @@
               <input type="text" class="login mt-4 mb-4" v-model="title" placeholder="От кого">
               <input type="text" class="login" v-model="modelNumber" placeholder="Сумма">
             </div>
-            <div v-if="type === 'salary'">
+            <div v-if="type === 'salary' || type === 'depositFrom' || type === 'deposit'">
               <input type="text" class="login mt-4" v-model="modelNumber" placeholder="Сумма">
             </div>
             <div class="d-flex justify-content-end mt-4">
@@ -90,6 +90,7 @@
         type: 'other',
         options: [
           {id: 'other', label: 'Другое'},
+          {id: 'deposit', label: 'Пополнение депозита'},
           {id: 'debt', label: 'В долг'},
           {id: 'repayment', label: 'Погашение кредита'},
           {id: 'meal', label: 'Еда'},
@@ -131,6 +132,7 @@
         if(this.cardType){
           this.options = [
             {id: 'other', label: 'Другое'},
+            {id: 'deposit', label: 'Пополнение депозита'},
             {id: 'debt', label: 'В долг'},
             {id: 'repayment', label: 'Погашение кредита'},
             {id: 'meal', label: 'Еда'},
@@ -146,6 +148,7 @@
         } else {
           this.options = [
             {id: 'otherFrom', label: 'Другое'},
+            {id: 'depositFrom', label: 'Снятия с депозита'},
             {id: 'debtFrom', label: 'Возвращение долга'},
             {id: 'salary', label: 'Зарплата'},
             {id: 'giftFrom', label: 'Подарок'},
@@ -160,7 +163,7 @@
         } else if(this.type === 'salary' || 
           this.type === 'onay' || this.type === 'products' || 
           this.type === 'mobile' || this.type === 'internet' ||
-          this.type === 'taxi'
+          this.type === 'taxi' || this.type === 'depositFrom' || this.type === 'deposit'
         ){
           return this.value !== ''
         } else if(this.type === 'airticket') {
@@ -227,6 +230,10 @@
             break;
           case 'salary':
             obj.title = this.title === '' ? 'Зарплата' : this.title
+          case 'depositFrom':
+            obj.title = 'Снятия с депозита'
+          case 'deposit':
+            obj.title = 'Пополнение депозита'
             break
           case 'snacks':
             obj.title = this.title === '' ? 'Десерты, снеки' : this.title
@@ -251,7 +258,6 @@
                 value: +item.value
               })
             })
-            console.log(obj.airtickets,'obj.airticketsobj.airtickets');
             break
           case 'taxi':
             obj.title = 'Такси'
