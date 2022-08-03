@@ -16,6 +16,9 @@
                 <label for="expense">Расход</label>
               </div>
             </div>
+            <div class="d-flex justify-content-center align-items-center mb-3">
+              <Datepicker v-model="date" />
+            </div>
             <treeselect v-model="type" :options="options" :clearable="false" :searchable="false" />
             <!-- <treeselect v-model="type" :options="optionsIncome" :clearable="false" v-else /> -->
             <div v-if="type === 'other' || type === 'otherFrom' || type === 'snacks'">
@@ -86,6 +89,7 @@
       return {
         title: "",
         value: "",
+        date: new Date(),
         userId: parseInt(localStorage.getItem('userId')),
         type: 'other',
         options: [
@@ -222,7 +226,7 @@
         obj = {
           type: this.type,
           isIncome: this.cardType ? false : true ,
-          date: new Date() 
+          date: this.date
         }
         switch (this.type) {
           case 'onay':
