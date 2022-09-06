@@ -8,4 +8,16 @@ import Vue3Autocounter from 'vue3-autocounter';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
-createApp(App).use(VueAxios, axios).component('vue3-autocounter', Vue3Autocounter).component('treeselect', Treeselect).component('Datepicker', Datepicker).mount('#app')
+createApp(App).directive('click-outside', {
+  mounted(el, binding, vnode) {
+    el.clickOutsideEvent = function(event) {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event, el);
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent);
+  },
+  unmounted(el) {
+    document.body.removeEventListener('click', el.clickOutsideEvent);
+  }
+}).use(VueAxios, axios).component('vue3-autocounter', Vue3Autocounter).component('treeselect', Treeselect).component('Datepicker', Datepicker).mount('#app')
