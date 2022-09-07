@@ -400,7 +400,6 @@
       background: #fff;
       transition: all .5s ease;
       .title{
-        font-size: 18px;
         font-weight: 700;
       }
       .sidebar-nav{
