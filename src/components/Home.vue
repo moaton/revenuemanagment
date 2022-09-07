@@ -65,7 +65,16 @@
             <i class="bi bi-list"></i>
           </div>
           <div class="sidebar" :class="{'sidebar-close': sidebar}" v-click-outside="sidebarClose">
-
+            <div class="title p-3 text-center">RevenueManagment</div>
+            <div class="pt-3">
+              <div class="p-3 sidebar-nav">Главная</div>
+              <div class="p-3 sidebar-nav">Дашборды</div>
+            </div>
+            <div class="p-2 text-center" style="position: absolute; bottom: 0; left: 0; width: 100%;font-size: 12px">
+              <p class="text-secondary">
+                Developed by Anet Zhuban, 2022 <br> @moaton
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -390,6 +399,18 @@
       width: 60%;
       background: #fff;
       transition: all .5s ease;
+      .title{
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .sidebar-nav{
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .5s ease;
+      }
+      .sidebar-nav:hover{
+        background: #eee;
+      }
     }
     .sidebar-close{
       left: 0
