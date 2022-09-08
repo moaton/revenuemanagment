@@ -9,8 +9,8 @@
       <div class="sidebar" :class="{'sidebar-close': sidebar}" v-click-outside="sidebarClose">
         <div class="title p-3 text-center">RevenueManagment</div>
         <div class="pt-3">
-          <div class="p-3 sidebar-nav" :class="{'active': home}" @click="home = !home, dashboard = !dashboard, sidebar = false">Главная</div>
-          <div class="p-3 sidebar-nav" :class="{'active': dashboard}" @click="home = !home, dashboard = !dashboard, sidebar = false">Дашборды</div>
+          <div class="p-3 sidebar-nav" :class="{'active': home}" @click="home = true, dashboard = false, sidebar = false">Главная</div>
+          <div class="p-3 sidebar-nav" :class="{'active': dashboard}" @click="home = false, dashboard = true, sidebar = false">Дашборды</div>
         </div>
         <div class="p-2 text-center" style="position: absolute; bottom: 0; left: 0; width: 100%;font-size: 12px">
           <p class="text-secondary">
@@ -85,6 +85,7 @@
       height: 100%;
       width: 60%;
       background: #fff;
+      border-right: 1px solid #000;
       transition: all .5s ease;
       .title{
         font-weight: 700;
