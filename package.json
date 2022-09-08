@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^3.4.0",
+    "apexcharts": "^3.35.5",
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "json-server": "^0.16.3",
     "vue": "^3.0.0",
     "vue-axios": "^3.3.7",
+    "vue3-apexcharts": "^1.4.1",
     "vue3-autocounter": "^1.0.6",
     "vue3-treeselect": "^0.1.10"
   },

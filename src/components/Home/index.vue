@@ -1,85 +1,71 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-lg-center align-items-lg-center">
-      <div class="col-12 col-lg-6">
-        <div class="home" v-if="revenues.length != 0">
-          <div class="col-12 col-lg-10 offset-lg-1">
-            <input type="text" min="5" class="login px-3 py-2" v-model="modelNumber" placeholder="Доход">
+  <div class="row justify-content-lg-center align-items-lg-center">
+    <div class="col-12 col-lg-6">
+      <div class="" v-if="revenues.length != 0">
+        <div class="col-12 col-lg-10 offset-lg-1">
+          <input type="text" min="5" class="login px-3 py-2" v-model="modelNumber" placeholder="Доход">
+        </div>
+        <div class="col-12 col-lg-10 offset-lg-1 d-flex justify-content-end mt-2 mb-4">
+          <button class="main__btn btn__border" @click="newRevenue">Обновить цифру</button>
+          <!-- <button class="main__btn" @click="addRevenue" :disabled="number<=0">Добавить</button> -->
+        </div>
+        <div class="col-12 text-center d-flex align-items-center justify-content-center" style="position:relative;">
+          <div class="spinner-grow spinner-grow-sm" role="status" v-if="isLoading" style="position: absolute; left: -27px;">
+            <span class="sr-only">Loading...</span>
           </div>
-          <div class="col-12 col-lg-10 offset-lg-1 d-flex justify-content-end mt-2 mb-4">
-            <button class="main__btn btn__border" @click="newRevenue">Обновить цифру</button>
-            <!-- <button class="main__btn" @click="addRevenue" :disabled="number<=0">Добавить</button> -->
-          </div>
-          <div class="col-12 text-center d-flex align-items-center justify-content-center" style="position:relative;">
-            <div class="spinner-grow spinner-grow-sm" role="status" v-if="isLoading" style="position: absolute; left: -27px;">
-              <span class="sr-only">Loading...</span>
-            </div>
-            <p id="revenue" class="revenue"><vue3-autocounter ref='counter' :startAmount='start' :endAmount='end' :duration='3' prefix='' suffix=' тенге' separator=',' decimalSeparator='.' :decimals='2' :autoinit='true' @finished='finished' /></p>
-          </div>
-          <hr>
-          <div class="revenue__content col-12 col-lg-10 offset-lg-1" v-if="revenues.expenses.length > 0">
-            <div class="wrapper">
-              <div v-for="(item, index) in displayExpenses" :key="index">
-                <p class="date__title" v-if="item.datetime === new Date().getDate() + '.' + (new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)) + '.' + new Date().getFullYear()">
-                  Сегодня <sup v-html="getTotal(item.exp)"></sup>
-                </p>
-                <p class="date__title" v-else>
-                  {{item.datetime}} <sup v-html="getTotal(item.exp)"></sup>
-                </p>
-                <div class="revenue__card mb-4" style="position: relative;" :style="getStyle(exp.type) + 'max-height: 123px;'" v-for="(exp, index) in item.exp" :key="index">
-                  <div class="col-12 d-flex justify-content-between align-items-center">
-                    <div class="revenue__card--title">{{ exp.title }}</div>
-                    <i class="far fa-times-circle" @click="deleteExpense(exp)"></i>
-                  </div>
-                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;">
-                    <i :class="getIconClass(exp.type)" style="font-size: 60px;"></i>
-                  </div>
-                  <div class="revenue__card--cost"><span>{{getSymbol(exp.type)}}</span> {{ getMoneyFormat(exp.cost) }} тенге</div>
-                  <template v-if="exp.type === 'repayment'">
-                    <div style="max-height: 16px; overflow: scroll;">
-                      <div v-for="(repayment, key) in exp.repayments" :key="key">
-                        <span>{{repayment.name}}: {{getMoneyFormat(repayment.value)}} тенге</span>
-                      </div>
-                    </div>
-                  </template>
-                  <template v-if="exp.type === 'airticket'">
-                    <div style="max-height: 16px; overflow: scroll;">
-                      <div v-for="(airticket, key) in exp.airtickets" :key="key">
-                        <span>{{airticket.from}}-{{airticket.to}}: {{getMoneyFormat(airticket.value)}} тенге</span>
-                      </div>
-                    </div>
-                  </template>
-                  <div class="revenue__card--date text-end">{{getDate(exp.date)}}</div>
-              </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 text-center" v-else>
-            <p>У вас нет расходов</p>
-          </div>
-          <!-- <i class="add__btn fas fa-plus-circle" @click="expenseModal = true"></i> -->
-          <div class="add__btn" @click="expenseModal = true" style="height: 39px; display: flex; align-items: center; background: #ffffff; border-radius: 50%; color: #000;cursor: pointer;">
-            <i class="bi bi-plus-circle"></i>
-          </div>
-          <div @click="sidebar = !sidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
-            <i class="bi bi-list"></i>
-          </div>
-          <div class="sidebar" :class="{'sidebar-close': sidebar}" v-click-outside="sidebarClose">
-            <div class="title p-3 text-center">RevenueManagment</div>
-            <div class="pt-3">
-              <div class="p-3 sidebar-nav">Главная</div>
-              <div class="p-3 sidebar-nav">Дашборды</div>
-            </div>
-            <div class="p-2 text-center" style="position: absolute; bottom: 0; left: 0; width: 100%;font-size: 12px">
-              <p class="text-secondary">
-                Developed by Anet Zhuban, 2022 <br> @moaton
+          <p id="revenue" class="revenue"><vue3-autocounter ref='counter' :startAmount='start' :endAmount='end' :duration='3' prefix='' suffix=' тенге' separator=',' decimalSeparator='.' :decimals='2' :autoinit='true' @finished='finished' /></p>
+        </div>
+        <hr>
+        <div class="revenue__content col-12 col-lg-10 offset-lg-1" v-if="revenues.expenses.length > 0">
+          <div class="wrapper">
+            <div v-for="(item, index) in displayExpenses" :key="index">
+              <p class="date__title" v-if="item.datetime === new Date().getDate() + '.' + (new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)) + '.' + new Date().getFullYear()">
+                Сегодня <sup v-html="getTotal(item.exp)"></sup>
               </p>
+              <p class="date__title" v-else>
+                {{item.datetime}} <sup v-html="getTotal(item.exp)"></sup>
+              </p>
+              <div class="revenue__card mb-4" style="position: relative;" :style="getStyle(exp.type) + 'max-height: 123px;'" v-for="(exp, index) in item.exp" :key="index">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                  <div class="revenue__card--title">{{ exp.title }}</div>
+                  <i class="far fa-times-circle" @click="deleteExpense(exp)"></i>
+                </div>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;">
+                  <i :class="getIconClass(exp.type)" style="font-size: 60px;"></i>
+                </div>
+                <div class="revenue__card--cost"><span>{{getSymbol(exp.type)}}</span> {{ getMoneyFormat(exp.cost) }} тенге</div>
+                <template v-if="exp.type === 'repayment'">
+                  <div style="max-height: 16px; overflow: scroll;">
+                    <div v-for="(repayment, key) in exp.repayments" :key="key">
+                      <span>{{repayment.name}}: {{getMoneyFormat(repayment.value)}} тенге</span>
+                    </div>
+                  </div>
+                </template>
+                <template v-if="exp.type === 'airticket'">
+                  <div style="max-height: 16px; overflow: scroll;">
+                    <div v-for="(airticket, key) in exp.airtickets" :key="key">
+                      <span>{{airticket.from}}-{{airticket.to}}: {{getMoneyFormat(airticket.value)}} тенге</span>
+                    </div>
+                  </div>
+                </template>
+                <div class="revenue__card--date text-end">{{getDate(exp.date)}}</div>
+            </div>
             </div>
           </div>
         </div>
+        <div class="col-12 text-center" v-else>
+          <p>У вас нет расходов</p>
+        </div>
+        <!-- <i class="add__btn fas fa-plus-circle" @click="expenseModal = true"></i> -->
+        <div class="add__btn" @click="expenseModal = true" style="height: 39px; display: flex; align-items: center; background: #ffffff; border-radius: 50%; color: #000;cursor: pointer;">
+          <i class="bi bi-plus-circle"></i>
+        </div>
+        <div @click="sidebar = !sidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
+          <i class="bi bi-list"></i>
+        </div>
       </div>
-      <NewExpense v-if="expenseModal" @add="add" :isIncome="isIncome" :number="number" @close="expenseModal = false" />
     </div>
+    <NewExpense v-if="expenseModal" @add="add" :isIncome="isIncome" :number="number" @close="expenseModal = false" />
   </div>
 </template>
 
@@ -102,7 +88,6 @@
         end: 0,
         isLoading: false,
         sidebar: false,
-        isOpen: false,
       }
     },
     computed: {
@@ -134,15 +119,6 @@
     methods: {
       getMoneyFormat(money){
         return new Intl.NumberFormat().format(money)
-      },
-      sidebarClose(){
-        if(this.isOpen){
-          this.sidebar = false
-          this.isOpen = false
-        }
-        if(this.sidebar){
-          this.isOpen = true
-        }
       },
       getTotal(exp){
         let total = 0
@@ -374,139 +350,4 @@
 </script>
 
 <style lang="scss">
-  .home {
-    position: relative;
-    margin-top: 40px;
-    margin-bottom: 60px;
-    border: 1px solid #000;
-    border-radius: 12px;
-    padding: 20px 40px 40px;
-    background: #fff;
-    overflow: hidden;
-
-    .add__btn {
-      position: absolute;
-      bottom: 20px;
-      right: 30px;
-      font-size: 42px;
-      color: rgb(0, 0, 0, .6);
-    }
-    .sidebar{
-      position: absolute;
-      top: 0;
-      left: -400px;
-      height: 100%;
-      width: 60%;
-      background: #fff;
-      transition: all .5s ease;
-      .title{
-        font-weight: 700;
-      }
-      .sidebar-nav{
-        font-weight: 600;
-        cursor: pointer;
-        transition: all .5s ease;
-      }
-      .sidebar-nav:hover{
-        background: #eee;
-      }
-    }
-    .sidebar-close{
-      left: 0
-    }
-    .revenue {
-      font-size: 24px;
-    }
-
-    // .revenue::after {
-    //   content: "тенге";
-    //   margin-left: 5px;
-    // }
-
-    .revenue__content {
-      height: 300px;
-      overflow: hidden;
-      position: relative;
-
-      .wrapper {
-        height: 100%;
-        overflow-y: scroll;
-        .revenue__card {
-          padding: 10px;
-          border-radius: 6px;
-          background: #DFDFDF;
-          border: 1px solid #000;
-
-          i {
-            font-size: 18px;
-          }
-
-          &--title {
-            font-weight: 300;
-          }
-
-          &--cost {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 16px;
-          }
-
-          // &--cost::before {
-          //   content: "-";
-          //   margin-right: 5px;
-          // }
-
-          &--date {
-            font-size: 10px;
-            // color: rgb(0, 0, 0, .5);
-          }
-        }
-      }
-
-    }
-    .revenue__content::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #000;
-      height: 6px;
-      filter: blur(5px);
-    }
-  }
-  .date__title{
-    overflow: hidden;
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  .date__title:before,
-  .date__title:after {
-    content: "";
-    display: inline-block;
-    vertical-align: middle;
-    width: 100%;
-    height: 1px;
-    background-color: #212529;
-    position: relative;
-  }
-  .date__title:before {
-    margin-left: -100%;
-    left: -14px;
-  }
-  .date__title:after {
-    margin-right: -100%;
-    right: -14px;
-  }
-  @media (max-width: 320px){
-    body{
-      font-size: 11px !important;
-    }
-  }
-  @media (min-width: 768px){
-    .revenue{
-      font-size: 36px !important;
-    }
-  }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <Modal @entered="entered" v-if="isEntered" />
-  <Home v-else />
+  <Layout v-else />
 </template>
 
 <script>
-  import Home from './components/Home.vue'
   import Modal from './components/Modal.vue'
+  import Layout from './components/Layout.vue'
 
   import './assets/css/null.css'
   import './assets/css/all.css'
@@ -15,7 +15,7 @@
     name: 'App',
     components: {
       Modal,
-      Home
+      Layout
     },
     data() {
       return {
