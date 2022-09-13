@@ -5,7 +5,7 @@
         <div class="home">
           <Home v-if="home" />
           <Dashboard v-if="dashboard" />
-          <div @click="sidebar = !sidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
+          <div @click="openSidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
             <i class="bi bi-list"></i>
           </div>
           <div class="sidebar" :class="{'sidebar-open': sidebar}" v-click-outside="sidebarClose">
@@ -50,14 +50,15 @@
     },
     methods: {
       sidebarClose(){
-        if(this.isOpen){
-          this.sidebar = false
-          this.isOpen = false
-        }
-        if(this.sidebar){
-          this.isOpen = true
-        }
+        this.sidebar = false
+        this.isOpen = false
       },
+      openSidebar(){
+        setTimeout(() => {
+          this.sidebar = true
+          this.isOpen = true
+        }, 0)
+      }
     },
   }
 </script>
