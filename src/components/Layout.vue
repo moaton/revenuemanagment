@@ -1,21 +1,25 @@
 <template>
   <div class="container">
-    <div class="home">
-      <Home v-if="home" />
-      <Dashboard v-if="dashboard" />
-      <div @click="sidebar = !sidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
-        <i class="bi bi-list"></i>
-      </div>
-      <div class="sidebar" :class="{'sidebar-close': sidebar}" v-click-outside="sidebarClose">
-        <div class="title p-3 text-center">RevenueManagment</div>
-        <div class="pt-3">
-          <div class="p-3 sidebar-nav" :class="{'active': home}" @click="home = true, dashboard = false, sidebar = false">Главная</div>
-          <div class="p-3 sidebar-nav" :class="{'active': dashboard}" @click="home = false, dashboard = true, sidebar = false">Дашборды</div>
-        </div>
-        <div class="p-2 text-center" style="position: absolute; bottom: 0; left: 0; width: 100%;font-size: 12px">
-          <p class="text-secondary">
-            Developed by Anet Zhuban, 2022 <br> @moaton
-          </p>
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <div class="home">
+          <Home v-if="home" />
+          <Dashboard v-if="dashboard" />
+          <div @click="sidebar = !sidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
+            <i class="bi bi-list"></i>
+          </div>
+          <div class="sidebar" :class="{'sidebar-open': sidebar}" v-click-outside="sidebarClose">
+            <div class="title p-3 text-center">RevenueManagment</div>
+            <div class="pt-3">
+              <div class="p-3 sidebar-nav" :class="{'active': home}" @click="home = true, dashboard = false, sidebar = false">Главная</div>
+              <div class="p-3 sidebar-nav" :class="{'active': dashboard}" @click="home = false, dashboard = true, sidebar = false">Дашборды</div>
+            </div>
+            <div class="p-2 text-center" style="position: absolute; bottom: 0; left: 0; width: 100%;font-size: 12px">
+              <p class="text-secondary">
+                Developed by Anet Zhuban, 2022 <br> @moaton
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,14 +50,13 @@
     },
     methods: {
       sidebarClose(){
-        // if(this.isOpen){
-        //   this.sidebar = false
-        //   this.isOpen = false
-        // }
-        // if(this.sidebar){
-        //   this.isOpen = true
-        // }
-        this.isOpen = !this.isOpen
+        if(this.isOpen){
+          this.sidebar = false
+          this.isOpen = false
+        }
+        if(this.sidebar){
+          this.isOpen = true
+        }
       },
     },
   }
@@ -81,7 +84,7 @@
     .sidebar{
       position: absolute;
       top: 0;
-      left: -1000px;
+      left: -500px;
       height: 100%;
       width: 60%;
       background: #fff;
@@ -103,7 +106,7 @@
         background: rgb(219, 218, 218);
       }
     }
-    .sidebar-close{
+    .sidebar-open{
       left: 0
     }
     .revenue {
@@ -124,10 +127,15 @@
         height: 100%;
         overflow-y: scroll;
         .revenue__card {
+          width: 95%;
+          margin: 0 auto;
+          height: 130px;
           padding: 10px;
           border-radius: 6px;
           background: #DFDFDF;
           border: 1px solid #000;
+          cursor: pointer;
+          transition: all .5s ease;
 
           i {
             font-size: 18px;
@@ -152,6 +160,9 @@
             font-size: 10px;
             // color: rgb(0, 0, 0, .5);
           }
+        }
+        .revenue__card:hover{
+          box-shadow: 0px 10px 8px 0px rgba(34, 60, 80, 0.2);
         }
       }
 

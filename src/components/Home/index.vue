@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-lg-center align-items-lg-center">
-    <div class="col-12 col-lg-6">
+    <div class="col-12">
       <div class="" v-if="revenues.length != 0">
         <div class="col-12 col-lg-10 offset-lg-1">
           <input type="text" min="5" class="login px-3 py-2" v-model="modelNumber" placeholder="Доход">
@@ -25,24 +25,24 @@
               <p class="date__title" v-else>
                 {{item.datetime}} <sup v-html="getTotal(item.exp)"></sup>
               </p>
-              <div class="revenue__card mb-4" style="position: relative;" :style="getStyle(exp.type) + 'max-height: 123px;'" v-for="(exp, index) in item.exp" :key="index">
+              <div class="revenue__card mb-4" style="position: relative;" :style="getStyle(exp.type) + 'max-height: 155px;'" v-for="(exp, index) in item.exp" :key="index">
                 <div class="col-12 d-flex justify-content-between align-items-center">
                   <div class="revenue__card--title">{{ exp.title }}</div>
-                  <i class="far fa-times-circle" @click="deleteExpense(exp)"></i>
+                  <i class="far fa-times-circle" @click="deleteExpense(exp)" style="cursor:pointer;"></i>
                 </div>
                 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3;">
                   <i :class="getIconClass(exp.type)" style="font-size: 60px;"></i>
                 </div>
                 <div class="revenue__card--cost"><span>{{getSymbol(exp.type)}}</span> {{ getMoneyFormat(exp.cost) }} тенге</div>
                 <template v-if="exp.type === 'repayment'">
-                  <div style="max-height: 16px; overflow: scroll;">
+                  <div style="max-height: 16px;overflow-y: scroll;">
                     <div v-for="(repayment, key) in exp.repayments" :key="key">
                       <span>{{repayment.name}}: {{getMoneyFormat(repayment.value)}} тенге</span>
                     </div>
                   </div>
                 </template>
                 <template v-if="exp.type === 'airticket'">
-                  <div style="max-height: 16px; overflow: scroll;">
+                  <div style="max-height: 16px;overflow-y: scroll;">
                     <div v-for="(airticket, key) in exp.airtickets" :key="key">
                       <span>{{airticket.from}}-{{airticket.to}}: {{getMoneyFormat(airticket.value)}} тенге</span>
                     </div>
@@ -59,9 +59,6 @@
         <!-- <i class="add__btn fas fa-plus-circle" @click="expenseModal = true"></i> -->
         <div class="add__btn" @click="expenseModal = true" style="height: 39px; display: flex; align-items: center; background: #ffffff; border-radius: 50%; color: #000;cursor: pointer;">
           <i class="bi bi-plus-circle"></i>
-        </div>
-        <div @click="sidebar = !sidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
-          <i class="bi bi-list"></i>
         </div>
       </div>
     </div>
