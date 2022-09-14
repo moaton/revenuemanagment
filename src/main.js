@@ -9,7 +9,8 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import VueApexCharts from "vue3-apexcharts";
 
-createApp(App).directive('click-outside', {
+const app = createApp(App) 
+app.directive('click-outside', {
   mounted(el, binding, vnode) {
     el.clickOutsideEvent = function(event) {
       if (!(el === event.target || el.contains(event.target))) {
@@ -22,3 +23,4 @@ createApp(App).directive('click-outside', {
     document.body.removeEventListener('click', el.clickOutsideEvent);
   }
 }).use(VueAxios, axios).use(VueApexCharts).component('vue3-autocounter', Vue3Autocounter).component('treeselect', Treeselect).component('Datepicker', Datepicker).mount('#app')
+app.config.warnHandler = () => null;

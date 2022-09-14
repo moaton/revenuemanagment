@@ -323,6 +323,7 @@
   .add__modal {
     position: absolute;
     margin-top: 100px;
+    left: 0;
     z-index: 10;
 
     .add__modal--content {
