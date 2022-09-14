@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-6 offset-lg-3">
-        <div class="home">
+        <div class="home" :class="{'pr-0 pl-0': dashboard}">
           <Home v-if="home" />
           <Dashboard v-if="dashboard" />
           <div @click="openSidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
@@ -64,6 +64,12 @@
 </script>
 
 <style lang="scss">
+  .pr-0{
+    padding-right: 20px !important;
+  }
+  .pl-0{
+    padding-left: 20px !important;
+  }
   .home {
     position: relative;
     min-height: 550px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <div>
       <treeselect v-model="take" :options="options" :clearable="false" :searchable="false" />
     </div>
@@ -9,12 +9,14 @@
         :options="getChartOptions"
         :series="getChartSeries"
         :key="getChartSeries"
+        :height="350"
       ></apexchart>
       <apexchart
         type="area"
         :options="getChartOptions"
         :series="getChartSeries"
         :key="getChartSeries"
+        :height="350"
       ></apexchart>
     </div>
     <div v-else>
@@ -22,14 +24,15 @@
         type="bar"
         :options="fakeChartOptions"
         :series="fakeSeries"
+        :height="350"
       ></apexchart>
       <apexchart
         type="area"
         :options="fakeChartOptions"
         :series="fakeSeries"
+        :height="350"
       ></apexchart>
     </div>
-    <div class="btn btn-primary" @click="key++">GET</div>
   </div>
 </template>
 
@@ -57,6 +60,7 @@ const URL = 'http://195.49.212.34:8080/api'
         chartOptions: {
           chart: {
             id: "vuechart-example",
+            height: 600
           },
           xaxis: {
             categories: [1, 2, 3, 4],
