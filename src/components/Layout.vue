@@ -72,7 +72,7 @@
   }
   .home {
     position: relative;
-    min-height: 660px;
+    // min-height: 660px;
     margin-top: 40px;
     margin-bottom: 60px;
     border: 1px solid #000;
