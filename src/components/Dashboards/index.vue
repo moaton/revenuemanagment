@@ -68,7 +68,7 @@ const URL = 'http://195.49.212.34:8080/api'
         },
         series: [
           {
-            name: 'Cost',
+            name: 'Сумма',
             data: [0, 0, 0, 0],
           },
         ],
