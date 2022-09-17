@@ -1,7 +1,7 @@
 <template>
   <div class="add__modal--backdrop" @click="close"></div>
   <div class="add__modal d-flex justify-content-center align-items-center" v-click-outside="close">
-    <div class="container">
+    <!-- <div class="container"> -->
       <div class="row">
         <div class="col-12">
           <div class="add__modal--content">
@@ -33,7 +33,7 @@
               <div v-for="(input, key) in inputs" :key="key" class="mb-3 p-2 pt-3 border" style="border-radius: 0.25rem;position:relative">
                 <div class="d-flex justify-content-between mb-2" style="position: absolute;right: 3px;top: 3px;left: 6px">
                   <span>#{{key+1}}</span>
-                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px;top: 2px" @click="removeRepayment(key)" v-if="inputs.length !== 1"></i>
+                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px;top: 2px;cursor:pointer;" @click.stop="removeRepayment(key)" v-if="inputs.length !== 1"></i>
                 </div>
                 <input type="text" class="login mb-2 mt-1" v-model="input.name" placeholder="Название">
                 <input type="number" class="login mb-2" v-model="input.value" placeholder="Сумма">
@@ -44,11 +44,11 @@
               <input type="text" class="login mt-4 mb-4" v-model="title" placeholder="Название">
               <input type="text" class="login" v-model="modelNumber" placeholder="Общий счет">
             </div>
-            <div v-if="type === 'airticket'" class="mt-2" style="height: 165px;overflow: scroll;">
+            <div v-if="type === 'airticket'" class="mt-2" style="height: 165px;overflow-y: scroll;">
               <div v-for="(input, key) in airtickets" :key="key" class="mb-2 p-2 pt-3 border" style="border-radius: 0.25rem;position:relative">
                 <div class="d-flex justify-content-between mb-1" style="position: absolute;right: 3px;top: 3px;left: 6px">
                   <span>#{{key+1}}</span>
-                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px;top: 2px" @click="removeAirTicket(key)" v-if="inputs.length !== 1"></i>
+                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px;top: 2px;cursor:pointer;" @click.stop="removeAirTicket(key)" v-if="airtickets.length !== 1"></i>
                 </div>
                 <input type="text" class="login mt-2" v-model="input.from" placeholder="Откуда">
                 <input type="text" class="login mt-2 mb-2" v-model="input.to" placeholder="Куда">
@@ -75,7 +75,7 @@
           </div>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
