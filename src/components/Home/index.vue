@@ -2,7 +2,7 @@
   <div class="row justify-content-lg-center align-items-lg-center">
     <div class="col-12">
       <div class="" v-if="revenues.length != 0">
-        <div class="col-12 col-lg-10 offset-lg-1">
+        <div class="col-11 offset-1 col-lg-10">
           <input type="text" min="5" class="login px-3 py-2" v-model="modelNumber" placeholder="Доход">
         </div>
         <div class="col-12 col-lg-10 offset-lg-1 d-flex justify-content-end mt-2 mb-4">
