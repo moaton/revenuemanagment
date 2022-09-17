@@ -1,6 +1,6 @@
 <template>
   <div class="add__modal--backdrop" @click="close"></div>
-  <div class="add__modal d-flex justify-content-center align-items-center">
+  <div class="add__modal d-flex justify-content-center align-items-center" v-click-outside="close">
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -29,14 +29,14 @@
               <input type="text" class="login mt-4 mb-4" v-model="title" placeholder="Кому">
               <input type="text" class="login" v-model="modelNumber" placeholder="Сумма">
             </div>
-            <div v-if="type === 'repayment'" class="mt-2" style="height: 265px;max-height: 265px;overflow: scroll;">
-              <div v-for="(input, key) in inputs" :key="key" class="mb-2 p-2 pt-3 border" style="border-radius: 0.25rem;position:relative">
+            <div v-if="type === 'repayment'" class="mt-2" style="height: 265px;max-height: 265px;overflow-y: scroll;">
+              <div v-for="(input, key) in inputs" :key="key" class="mb-3 p-2 pt-3 border" style="border-radius: 0.25rem;position:relative">
                 <div class="d-flex justify-content-between mb-2" style="position: absolute;right: 3px;top: 3px;left: 6px">
                   <span>#{{key+1}}</span>
-                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px" @click="removeRepayment(key)" v-if="inputs.length !== 1"></i>
+                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px" @click="removeRepayment(key)" v-if="inputs.length !== 1"></i>
                 </div>
                 <input type="text" class="login mb-2 mt-1" v-model="input.name" placeholder="Название">
-                <input type="text" class="login mb-2" v-model="input.value" placeholder="Сумма">
+                <input type="number" class="login mb-2" v-model="input.value" placeholder="Сумма">
               </div>
             </div>
             <button v-if="type === 'repayment'" class="main__btn mt-1" @click="addRepayment()">Еще</button>
@@ -322,7 +322,7 @@
 
   .add__modal {
     position: absolute;
-    margin-top: 100px;
+    margin-top: 25px;
     left: 0;
     z-index: 10;
 

@@ -57,7 +57,7 @@
           <p>У вас нет расходов</p>
         </div>
         <!-- <i class="add__btn fas fa-plus-circle" @click="expenseModal = true"></i> -->
-        <div class="add__btn" @click="expenseModal = true" style="height: 39px; display: flex; align-items: center; background: #ffffff; border-radius: 50%; color: #000;cursor: pointer;">
+        <div class="add__btn" @click="openModalExpense" style="height: 39px; display: flex; align-items: center; background: #ffffff; border-radius: 50%; color: #000;cursor: pointer;">
           <i class="bi bi-plus-circle"></i>
         </div>
       </div>
@@ -114,6 +114,11 @@
       await this.getRevenues()
     },
     methods: {
+      openModalExpense(){
+        setTimeout(() => {
+          this.expenseModal = true
+        }, 0)
+      },
       getMoneyFormat(money){
         return new Intl.NumberFormat().format(money)
       },

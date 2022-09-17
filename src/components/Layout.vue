@@ -5,7 +5,7 @@
         <div class="home" :class="{'pr-0 pl-0': dashboard}">
           <Home v-if="home" />
           <Dashboard v-if="dashboard" />
-          <div @click="openSidebar" style="font-size: 42px; position: absolute; top: 14%; left: 4%;cursor: pointer;">
+          <div @click="openSidebar" style="font-size: 42px; position: absolute; top: 9px; left: 4%;cursor: pointer;">
             <i class="bi bi-list"></i>
           </div>
           <div class="sidebar" :class="{'sidebar-open': sidebar}" v-click-outside="sidebarClose">
@@ -72,7 +72,7 @@
   }
   .home {
     position: relative;
-    min-height: 550px;
+    min-height: 660px;
     margin-top: 40px;
     margin-bottom: 60px;
     border: 1px solid #000;
@@ -126,7 +126,7 @@
     // }
 
     .revenue__content {
-      height: 300px;
+      height: 400px;
       overflow: hidden;
       position: relative;
 

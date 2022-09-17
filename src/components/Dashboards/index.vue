@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="margin-left:50px">
       <treeselect v-model="take" :options="options" :clearable="false" :searchable="false" />
     </div>
     <div v-if="!loading">
