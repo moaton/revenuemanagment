@@ -82,7 +82,7 @@ const URL = 'http://195.49.212.34:8080/api'
           {id: 'year', label: 'Год'},
         ],
         userId: parseInt(localStorage.getItem('userId')),
-        options: [
+        itemsOptions: [
           {id: 'other', label: 'Другое'},
           {id: 'deposit', label: 'Пополнение депозита'},
           {id: 'debt', label: 'В долг'},
@@ -129,7 +129,7 @@ const URL = 'http://195.49.212.34:8080/api'
         await this.axios.get(`${URL}/revenues/chart-data/${this.userId}?take=${this.take}`).then(res => {
           let categories = []
           res.data.categories.map(item => {
-            categories.push(this.options.find(fItem => fItem.id === item).label)
+            categories.push(this.itemsOptions.find(fItem => fItem.id === item).label)
           })
           this.chartOptions.xaxis.categories = [...categories]
           this.series[0].data = [...res.data.series]
