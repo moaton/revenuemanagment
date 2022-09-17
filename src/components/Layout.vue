@@ -126,7 +126,7 @@
     // }
 
     .revenue__content {
-      height: 400px;
+      height: 300px;
       overflow: hidden;
       position: relative;
 

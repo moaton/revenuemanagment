@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-12">
           <div class="add__modal--content">
-            <div class="text-center mb-4" style="font-size:16px;font-weight:500">Создать карточку</div>
+            <div class="text-center mb-3" style="font-size:16px;font-weight:500">Создать карточку</div>
             <div class="d-flex align-items-center justify-content-between mb-3">
               <div class="d-flex align-items-center">
                 <input type="radio" name="card_type" style="margin-right: 7px;" v-model="cardType" :value="false" id="income">
@@ -29,11 +29,11 @@
               <input type="text" class="login mt-4 mb-4" v-model="title" placeholder="Кому">
               <input type="text" class="login" v-model="modelNumber" placeholder="Сумма">
             </div>
-            <div v-if="type === 'repayment'" class="mt-2" style="height: 265px;max-height: 265px;overflow-y: scroll;">
+            <div v-if="type === 'repayment'" class="mt-2 pt-1" style="height: 165px;overflow-y: scroll;">
               <div v-for="(input, key) in inputs" :key="key" class="mb-3 p-2 pt-3 border" style="border-radius: 0.25rem;position:relative">
                 <div class="d-flex justify-content-between mb-2" style="position: absolute;right: 3px;top: 3px;left: 6px">
                   <span>#{{key+1}}</span>
-                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px" @click="removeRepayment(key)" v-if="inputs.length !== 1"></i>
+                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px;top: 2px" @click="removeRepayment(key)" v-if="inputs.length !== 1"></i>
                 </div>
                 <input type="text" class="login mb-2 mt-1" v-model="input.name" placeholder="Название">
                 <input type="number" class="login mb-2" v-model="input.value" placeholder="Сумма">
@@ -44,20 +44,20 @@
               <input type="text" class="login mt-4 mb-4" v-model="title" placeholder="Название">
               <input type="text" class="login" v-model="modelNumber" placeholder="Общий счет">
             </div>
-            <div v-if="type === 'airticket'" class="mt-2" style="height: 265px;max-height: 265px;overflow: scroll;">
+            <div v-if="type === 'airticket'" class="mt-2" style="height: 165px;overflow: scroll;">
               <div v-for="(input, key) in airtickets" :key="key" class="mb-2 p-2 pt-3 border" style="border-radius: 0.25rem;position:relative">
-                <div class="d-flex justify-content-between mb-2" style="position: absolute;right: 3px;top: 3px;left: 6px">
+                <div class="d-flex justify-content-between mb-1" style="position: absolute;right: 3px;top: 3px;left: 6px">
                   <span>#{{key+1}}</span>
-                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px" @click="removeAirTicket(key)" v-if="inputs.length !== 1"></i>
+                  <i class="add__btn far fa-times-circle text-secondary" style="font-size: 14px;right: 5px;top: 2px" @click="removeAirTicket(key)" v-if="inputs.length !== 1"></i>
                 </div>
-                <input type="text" class="login mt-4" v-model="input.from" placeholder="Откуда">
-                <input type="text" class="login mt-2 mb-4" v-model="input.to" placeholder="Куда">
+                <input type="text" class="login mt-2" v-model="input.from" placeholder="Откуда">
+                <input type="text" class="login mt-2 mb-2" v-model="input.to" placeholder="Куда">
                 <input type="text" class="login mb-2" v-model="input.value" placeholder="Сумма">
               </div>
             </div>
             <div v-if="type === 'airticket'" >
               <button class="main__btn mt-1" @click="addAirTicket()">Добавить авиабилет</button>
-              <div class="mt-3 text-right">Общий счет: <b>{{getAirTicketsAmount()}} тенге</b></div>
+              <div class="mt-2 text-right">Общий счет: <b>{{getAirTicketsAmount()}} тенге</b></div>
             </div>
             <div v-if="type === 'onay' || type === 'taxi' || type === 'mobile' || type === 'internet' || type === 'products'">
               <input type="text" class="login mt-4" v-model="modelNumber" placeholder="Общий счет">
@@ -69,7 +69,7 @@
             <div v-if="type === 'salary' || type === 'depositFrom' || type === 'deposit'">
               <input type="text" class="login mt-4" v-model="modelNumber" placeholder="Сумма">
             </div>
-            <div class="d-flex justify-content-end mt-4">
+            <div class="d-flex justify-content-end mt-3">
               <button class="main__btn" :class="{ not__clickable: !isDone }" @click="add">Добавить</button>
             </div>
           </div>
@@ -322,7 +322,7 @@
 
   .add__modal {
     position: absolute;
-    margin-top: 25px;
+    // margin-top: 25px;
     left: 0;
     z-index: 10;
 
