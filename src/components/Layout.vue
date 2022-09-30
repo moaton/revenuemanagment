@@ -79,7 +79,7 @@
     border-radius: 12px;
     padding: 20px 40px 40px;
     background: #fff;
-    overflow: hidden;
+    // overflow: hidden;
 
     .add__btn {
       position: absolute;
