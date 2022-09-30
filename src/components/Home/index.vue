@@ -213,7 +213,7 @@
         return dateTime.getDate() + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear()
       },
       getSymbol(type){
-        if(type === 'salary' || type === 'debtFrom' || type === 'gift' || type === 'otherFrom' || type === 'depositFrom'){
+        if(type === 'salary' || type === 'debtFrom' || type === 'giftFrom' || type === 'otherFrom' || type === 'depositFrom'){
           return '+'
         }
         return '-'
