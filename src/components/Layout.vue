@@ -8,7 +8,7 @@
           <div @click="openSidebar" style="font-size: 42px; position: absolute; top: 9px; left: 4%;cursor: pointer;">
             <i class="bi bi-list"></i>
           </div>
-          <div class="sidebar" :class="{'sidebar-open': sidebar}" v-click-outside="sidebarClose">
+          <div class="sidebar" v-click-outside="sidebarClose">
             <div class="title p-3 text-center">RevenueManagment</div>
             <div class="pt-3">
               <div class="p-3 sidebar-nav" :class="{'active': home}" @click="home = true, dashboard = false, sidebar = false">Главная</div>
@@ -44,7 +44,23 @@
         home: true,
       }
     },
-    computed: {
+    watch: {
+      sidebar(){
+        document.querySelector('.sidebar').style.display = 'block'
+        if(!this.sidebar){
+          document.querySelector('.sidebar').classList.remove('sidebar-open')
+        }
+        setTimeout(() => {
+          if(this.sidebar){
+            document.querySelector('.sidebar').classList.add('sidebar-open')
+          }
+        }, 200);
+        setTimeout(() => {
+          if(!this.sidebar){
+            document.querySelector('.sidebar').style.display = 'none'
+          }
+        }, 600);
+      }
     },
     async mounted() {
     },
@@ -96,7 +112,8 @@
       width: 60%;
       background: #fff;
       border-right: 1px solid #000;
-      transition: all .5s ease;
+      opacity: 0;
+      transition: left .5s ease, opacity .4s;
       .title{
         font-weight: 700;
       }
@@ -114,7 +131,8 @@
       }
     }
     .sidebar-open{
-      left: 0
+      left: 0;
+      opacity: 1;
     }
     .revenue {
       font-size: 24px;
