@@ -323,15 +323,36 @@
           let dates = []
           let date = new Date()
           if(res.data.expenses !== null){
+            console.log('awaitthis.axios.get --> res.data.expenses', JSON.parse(res.data.expenses))
             JSON.parse(res.data.expenses).map(item => {
               let dateTime = new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()
               if(dates.findIndex(date => date.datetime === dateTime) === -1){
                 let exp = JSON.parse(res.data.expenses).filter(item => (new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()) === dateTime)
-                dates.push({ exp: exp, datetime: dateTime })
+                dates.push({ exp: exp, datetime: dateTime, date: item.date })
               }
             })
           }
+          dates = dates.sort((a, b) => {
+            console.log(a.date, b.date);
+            if(new Date(a.date) > new Date(b.date)){
+              return -1
+            } else {
+              return 1
+            }
+            return 0
+          })
+          dates.map(item => {
+            item.exp.sort((a, b) => {
+              if(new Date(a.date) > new Date(b.date)){
+                return -1
+              } else {
+                return 1
+              }
+              return 0
+            })
+          })
           this.revenues = {...res.data, revenue: +res.data.revenue, expenses: res.data.expenses ? dates : []}
+          console.log('awaitthis.axios.get --> this.revenues', this.revenues)
           if(this.revenues.revenue > 0){
             this.end = +this.revenues.revenue
           }
