@@ -95,7 +95,7 @@
     border-radius: 12px;
     padding: 20px 40px 40px;
     background: #fff;
-    // overflow: hidden;
+    overflow-x: hidden;
 
     .add__btn {
       position: absolute;
@@ -113,7 +113,8 @@
       background: #fff;
       border-right: 1px solid #000;
       opacity: 0;
-      transition: left .5s ease, opacity .4s;
+      border-radius: 1.25rem 0 0 1.25rem;
+      transition: left .5s ease, opacity .3s;
       .title{
         font-weight: 700;
       }
