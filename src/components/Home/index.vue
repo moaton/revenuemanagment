@@ -132,7 +132,7 @@
           }
         })
         let html = '<small class="$1">$2</small>'
-        let text = total > 0 ? `-${this.getMoneyFormat(total)} тг` : total < 0 ? `+${Math.abs(total)} тг` : '0'
+        let text = total > 0 ? `-${this.getMoneyFormat(total)} тг` : total < 0 ? `+${this.getMoneyFormat(Math.abs(total))} тг` : '0'
         let className = total > 0 ? 'text-danger' : total < 0 ? 'text-success' : ''
         return html.replace('$1', className).replace('$2', text)
       },
