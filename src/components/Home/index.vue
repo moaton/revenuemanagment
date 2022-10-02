@@ -210,7 +210,8 @@
       },
       getDate(date){
         let dateTime = new Date(date)
-        return dateTime.getDate() + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear()
+        let day = dateTime.getDate() < 10 ? '0' + (dateTime.getDate()) : (dateTime.getDate())
+        return day + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear()
       },
       getSymbol(type){
         if(type === 'salary' || type === 'debtFrom' || type === 'giftFrom' || type === 'otherFrom' || type === 'depositFrom'){
@@ -230,7 +231,7 @@
             this.revenues.revenue += data.obj.cost
           // this.revenues.expenses.unshift(data.obj)
           let date = new Date()
-          let dateTime = new Date(data.obj.date).getDate() + '.' + (new Date(data.obj.date).getMonth() + 1 < 10 ? '0' + (new Date(data.obj.date).getMonth() + 1) : (new Date(data.obj.date).getMonth() + 1)) + '.' + new Date(data.obj.date).getFullYear()
+          let dateTime = (new Date(data.obj.date).getDate() < 10 ? '0' + new Date(data.obj.date).getDate() : new Date(data.obj.date).getDate()) + '.' + (new Date(data.obj.date).getMonth() + 1 < 10 ? '0' + (new Date(data.obj.date).getMonth() + 1) : (new Date(data.obj.date).getMonth() + 1)) + '.' + new Date(data.obj.date).getFullYear()
           if(this.revenues.expenses.length !== 0){
             if(this.revenues.expenses[0].datetime === dateTime){
               this.revenues.expenses[0].exp.unshift(data.obj)
@@ -261,7 +262,7 @@
       },
       async deleteExpense(item) {
         let dateTime = new Date(item.date)
-        let index = this.revenues.expenses.findIndex(el => el.datetime === dateTime.getDate() + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear())
+        let index = this.revenues.expenses.findIndex(el => el.datetime === (dateTime.getDate() < 10 ? '0' + dateTime.getDate() : dateTime.getDate()) + '.' + (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)) + '.' + dateTime.getFullYear())
         if(index === -1)
           return
         let indexExp = this.revenues.expenses[index].exp.findIndex(el => el === item)
@@ -325,9 +326,9 @@
           if(res.data.expenses !== null){
             console.log('awaitthis.axios.get --> res.data.expenses', JSON.parse(res.data.expenses))
             JSON.parse(res.data.expenses).map(item => {
-              let dateTime = new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()
+              let dateTime = (new Date(item.date).getDate() + 1 < 10 ? '0' + new Date(item.date).getDate() : new Date(item.date).getDate()) + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()
               if(dates.findIndex(date => date.datetime === dateTime) === -1){
-                let exp = JSON.parse(res.data.expenses).filter(item => (new Date(item.date).getDate() + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()) === dateTime)
+                let exp = JSON.parse(res.data.expenses).filter(item => ((new Date(item.date).getDate() + 1 < 10 ? '0' + new Date(item.date).getDate() : new Date(item.date).getDate()) + '.' + (new Date(item.date).getMonth() + 1 < 10 ? '0' + (new Date(item.date).getMonth() + 1) : (new Date(item.date).getMonth() + 1)) + '.' + new Date(item.date).getFullYear()) === dateTime)
                 dates.push({ exp: exp, datetime: dateTime, date: item.date })
               }
             })
